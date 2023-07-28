@@ -1,0 +1,30 @@
+STRUCT, ENUM, VEECTOR, GENERIC TYPE
+- Struct:
+VD: 
+struct Students {
+	class: u8,
+    	symbol: String,
+   	grade: f64,
+}
+//Tạo method trong Students
+impl Student{
+	fn new_student() -> Students{ // không có từ khóa self, nghĩa là chỉ có thể gọi từ struct
+		Self{ 		      // Students (Students::new_student)
+			class: 10,
+			symbol: "Yolo".to_string(),
+			grade: 6.0,
+		}
+	}
+	fn get_symbol(&self) -> String { // có từ khóa self--> được sử dụng bởi các thực thể cụ thể
+        	"Ok".to_string()	 // nên sử dụng &self để bảo đảm tính ownership khi không 
+    	}				 // cần thay đổi thuộc tính của thực thể
+	fn set_grade(&mut self, new_grade: f64) { // sử dụng mutable reference để thay đổi thuộc 
+        	self.grade += new_grade;	  // tính của thực thể
+    }
+}
+Tạo một thực thể Students
+let student_a = Students {
+        class: 1,
+        symbol: "Hi".to_string(),
+        grade: 10.0,
+    };

@@ -159,7 +159,7 @@ fn main() {
 
     // đối tượng : chung
     // hình thái cụ  thể
-    // instance : 1 thực  thể
+    // instance : 1 thực thể
     let student_a = Students {
         class: 1,
         symbol: "Hi".to_string(),
@@ -183,7 +183,7 @@ fn main() {
 
     println!("Class of C:{}", class_of_c);
 
-    let mut student_d = Students::new_student();
+    let mut student_d = Students::new_student(); // phương thức gọi từ struct
     //let class_of_d = student_d.get_class();
     // :: và .
 
@@ -193,7 +193,7 @@ fn main() {
     println!("Student d: {:?}", student_d);
 
     student_d.set_grade(20.0);
-    // mutable reference
+    // mutable reference    
 
     println!("Student d grade: {}", student_d.grade);
 
@@ -201,6 +201,7 @@ fn main() {
 
     let direction = Direction::West;
     let res = direction.convert_string();
+    println!("Check implementation of enum: {}", res);
 
     let shape = Shape::Circle (10.0);
     let rect = Shape::Rectangle { width: 10.0, length: 20.0 };
@@ -238,16 +239,16 @@ impl Students {
     fn get_symbol(&self) -> String {
         "Ok".to_string()
     }
+    // discuss discord
     //  + value: nào đó
     fn set_grade(&mut self, new_grade: f64) {
         self.grade += new_grade;
     }
-
+    
     // hàm gọi hàm trong impl
     fn test(self) -> String {
         self.get_symbol()
     }
-    // discuss discord
     fn get_attr(&self, input: &str) -> String {
         match input {
             "class" => self.class.to_string(),
