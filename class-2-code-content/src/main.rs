@@ -176,7 +176,7 @@ fn main() {
     // có thể thay đổi giá trị
     // nhưng owner phải share quyền thay đổi mut 
 
-    let s12 = &mut s7; //s7 cho phép s16 co quyền thay đổi giá trị
+    let s12 = &mut s7; //s7 cho phép s12 co quyền thay đổi giá trị
     s12.push_str(" World!");
     // println!("s7: {}",s7); Không thể print s7 trực tiếp vì đã trao quyền mutable cho s12
     println!("s12: {}",s12);
