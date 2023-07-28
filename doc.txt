@@ -1,0 +1,29 @@
+Quy tắc của ownership là trong một thời điểm thì chỉ có 1 chủ sở hữu dữ liệu
+VD:
+let x = 5;
+let y = x;
+let z = x; // không thể thực hiện dòng này vì x đã bị dropped sau dòng thứ 2, nghĩa là lúc đó y 
+	   // đang nắm giữ giá trị vùng nhớ của x
+
+Có 2 cách cơ bản để loại bỏ ownership:
+- Sử dụng clone(): nhanh và tiện, tuy nhiên khi sử dụng clone(), compiler sẽ sao chép dữ liệu ra
+một vùng nhớ mới, vì vậy sẽ gây tốn bộ nhớ.
+VD: 
+let x = 5;
+let y = x.clone();
+let z = x.clone();
+
+- Sử dụng reference (borrowing): sử dụng dấu "&" để tham chiếu tới vùng nhớ cần mượn 
+VD:
+let x = 5;
+let y = &x;
+let z = &x;
+println!("x: {}", x); // có thể thực hiện được vì x không bị drop khi được y và z tham chiếu
+
+
+fn exercise4_2(value: u32) -> &'static str {
+    let str_value = value.to_string(); // Convert u32 to String
+    let static_str = Box::leak(str_value.into_boxed_str()); // Convert String to &'static str
+    static_str // Return a reference to the &'static str
+}
+
