@@ -28,3 +28,23 @@ let student_a = Students {
         symbol: "Hi".to_string(),
         grade: 10.0,
     };
+
+- Enum: Định nghĩa 1 danh sách
+enum Direction {
+    West,
+    East,
+    South,
+    North
+}
+- Method:
+impl Direction {
+    fn convert_string(self) -> String {
+        match self {
+            Direction::East => "East".to_string(),
+            Direction::West => "West".to_string(),
+            Direction::South => "South".to_string(),
+            Direction::North => "North".to_string(),
+        }
+    }
+}
+Truuy xuất trong main: let direction = Direction::East;
