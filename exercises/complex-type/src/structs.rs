@@ -2,21 +2,26 @@
 // Fix the error
 // Make it compile
 // Run test
+#[derive(Eq, PartialEq)]
+#[derive(Debug)]
 struct Person {
     name: String,
     age: u8,
     hobby: String
 }
-fn exercise1() -> Person {
-    let age = 30;
-    // Hobby = Rust 
-    let p = Person {
-        name: String::from("sunface"),
-        age,
-        hobby: String::from("Rust")
-    };
+impl Person{
 
-    p
+    fn exercise1() -> Person {
+        let age = 30;
+        // Hobby = Rust 
+        let p = Person {
+            name: String::from("sunface"),
+            age,
+            hobby: String::from("Rust")
+        };
+    
+        p
+    }
 }
 
 // Exercise 2
@@ -39,12 +44,12 @@ impl Agent {
 
     // Get the name of the person
     fn get_name(&self) -> &str {
-        todo!()
+        self.name.as_str()
     }
 
     // Get the age of the person
     fn get_age(&self) -> u32 {
-        todo!()
+        self.age
     }
 }
 
@@ -61,18 +66,18 @@ impl Calculator {
         Calculator { value: 0 }
     }
 
-    fn add(&self, num: i32) {
+    fn add(&mut self, num: i32) {
         self.value += num;
     }
 
-    fn subtract(mut self, num: i32) {
+    fn subtract(&mut self, num: i32) {
         self.value -= num;
     }
-    fn clear(self) {
+    fn clear(&mut self) {
         self.value = 0;
     }
 
-    fn get_value(self) -> i32 {
+    fn get_value(&self) -> i32 {
         self.value
     }
 }
@@ -95,7 +100,8 @@ fn exercise4() {
 
     let u2 = User {
         first: String::from("Mary"),
-        ..u1
+        last: u1.last.clone(),
+        age: u1.age.clone()
         
     };
 
@@ -122,10 +128,10 @@ fn exercise5() {
     });
 
     
-    let moved = foos[0];
+    let moved = &foos[0]; 
 
     
-    let moved_field = foos[0].str_val;
+    let moved_field = &foos[0].str_val; //vi phạm ownership
 }
 
 // Exercise 6
@@ -153,12 +159,18 @@ impl Package {
         }
     }
 
-    fn is_international(&self) -> ??? {
-        // Something goes here...
+    fn is_international(&self) -> bool {
+        if self.recipient_country != self.sender_country{
+
+            true
+        }
+        else {
+            false
+        }
     }
 
-    fn get_fees(&self, cents_per_gram: i32) -> ??? {
-        // Something goes here...
+    fn get_fees(&self, cents_per_gram: i32) -> i32 {
+        cents_per_gram * self.weight_in_grams
     }
 }
 
@@ -169,7 +181,7 @@ mod tests {
     // Test for exercise 1
     #[test]
     fn exercise1_should_work() {
-        let p = exercise1();
+        let p: Person = Person::exercise1();
 
         let p_expectation = Person {
             name: String::from("sunface"),
