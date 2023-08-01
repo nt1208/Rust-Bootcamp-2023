@@ -1,0 +1,134 @@
+GENERIC TYPE: Kiểu dữ liệu chung
+
+<>: turbofish
+VD:
+fn print_generic<T: std::fmt::Debug>(input: T) {
+    println!("Input:{:?}", input);
+}
+
+
+print_generic("Hello"); <=> print_generic::<&str>("Hello") // Khi compiler không hiểu kiểu dữ liệu gì
+// kiểu này thì compiler 				   // thì nên khai báo kiểu dữ liệu cần sử dụng cho nó
+// tự biết được kiểu dữ liệu							  
+Có thể truyền bất kỳ kiểu dữ liệu primitive hoặc collection vào hàm trên. Ngoài ra có thể thay thế T bằng các chữ cái khác.
+
+VD: 
+struct Point<T> {
+    x: T,
+    y: T,
+}
+
+impl<AB> Point<AB> {
+    fn new(x: AB, y: AB) -> Self {
+        Self { x, y }
+    }
+}
+
+- Cách sử dụng như sau:
+let point = Point::<f64> { x: 1.0, y: 2.0 };
+let point1: Point<u64> = Point::new(10, 20);
+let point1 = Point::<i32>::new(10, 20);
+
+- Kiểu dữ liệu Option
+VD: 
+pub enum Option<T> {
+    None,
+    Some(T),
+}
+
+Khai báo: 
+let x: Option<i32> = Some(5);
+let y: Option<f64> = Some(5.0f64);
+
+Life time: Thường xảy ra khi reference
+VD:
+fn returns_reference() -> &str {
+    let my_string = String::from("I am a string");
+    &my_string // ⚠️
+}
+Giải quyết vấn đề về life time bằng cách clone hoặc đánh dấu life time
+Đánh dấu life time:
+
+fn returns_reference<'a>() -> &'a str {
+    let my_string = String::from("I am a string");
+    //&my_string // ⚠️
+    "Hello"
+}
+
+fn returns_reference() -> &'static str {
+    let my_string = String::from("I am a string");
+    //&my_string // ⚠️
+    "Hello"
+}
+--> static giữ &str cho đến hết thời gian chạy chương trình
+
+Trait: là một cách để định nghĩa một tập hợp các phương thức được chia sẻ giữa các kiểu dữ liệu khác nhau
+VD: 
+trait Drawable {
+    fn draw(&self);
+    fn area(&self) -> f64;
+}
+
+struct Circle {
+    radius: f64,
+}
+
+struct Rectangle {
+    width: f64,
+    height: f64,
+}
+
+
+impl Drawable for Circle {
+    fn draw(&self) {
+        println!("Drawing a circle.");
+    }
+
+    fn area(&self) -> f64 {
+        std::f64::consts::PI * self.radius * self.radius
+    }
+}
+
+impl Drawable for Rectangle { 
+    fn draw(&self) {
+        println!("Drawing a rectangle.");
+    }
+
+fn area(&self) -> f64 {
+        self.width * self.height
+    }
+}
+fn main(){
+	let circle = Circle{radius: 5.6};
+	let area = circle.area();
+}	
+--> Khi implement 1 trait cho 1 object, object đó phải implement đầy đủ các đặc tính của trait
+
+- Trait bound: Generic type đang ràng buộc 1 số trait
+VD:
+fn get_area<T: Drawable>(method: T) -> f64{
+	method.area()
+}
+hoặc
+fn get_area<T>(method: T) -> f64{
+where
+	T: Drawable,
+{
+	method.area()
+}
+
+- Trường hợp generic struct:
+struct Square<T> {
+    x: T, // primitive // string , Heap
+}
+
+// cộng nhiều trait gọi là
+impl<T: std::ops::Mul<Output = f64> + Copy> Drawable for Square<T> { // Thêm dòng std::ops::Mul<Output = f64 để có thể nhân 
+    fn draw(&self) {
+        println!("Draw square")
+    }
+
+    fn area(&self) -> f64 {
+        self.x * self.x
+    }
+}

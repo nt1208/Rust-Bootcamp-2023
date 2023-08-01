@@ -28,6 +28,12 @@
 
 // }
 
+// fn returns_reference() -> &'static str {
+//     let my_string = String::from("I am a string");
+//     //&my_string // ⚠️
+//     "Hello"
+// }
+
 struct Point1 {
     x: u32,
     y: u32,
@@ -43,6 +49,7 @@ struct Point<T> {
     x: T,
     y: T,
 }
+
 impl<AB> Point<AB> {
     fn new(x: AB, y: AB) -> Self {
         Self { x, y }
@@ -234,7 +241,7 @@ struct Square<T> {
 }
 
 // cộng nhiều trait gọi là
-impl<T: std::ops::Mul<Output = f64> + Copy> Drawable for Square<T> {
+impl<T: std::ops::Mul<Output = f64> + Copy> Drawable for Square<T> { // Thêm dòng std::ops::Mul<Output = f64 để có thể nhân 
     fn draw(&self) {
         println!("Draw square")
     }
