@@ -13,10 +13,19 @@ trait Hello {
 //TODO 
 struct Student {}
 impl Hello for Student {
+    fn say_something(&self) -> String {
+        "I'm a good student".to_string()
+    }
 }
 //TODO
 struct Teacher {}
 impl Hello for Teacher {
+    fn say_hi(&self) -> String {
+        String::from("Hi, I'm your new teacher")
+    }
+    fn say_something(&self) -> String {
+        "I'm not a bad teacher".to_string()
+    }
 }
 
 
@@ -24,6 +33,8 @@ impl Hello for Teacher {
 // Make it compile in unit test for exercise 2
 // Hint: use #[derive]  for struct Point 
 // Run tests
+#[derive(Debug)]
+#[derive(PartialEq, Eq)]
 struct Point {
     x: i32,
     y: i32,
@@ -35,7 +46,7 @@ struct Point {
 // Implement `fn sum` with trait bound in two ways.
 // Run tests
 // Hint: Trait Bound
-fn sum<T>(x: T, y: T) -> T {
+fn sum<T: std::ops::Add<Output = T>>(x: T, y: T) -> T {
     x + y
 }
 
@@ -55,15 +66,17 @@ impl Foo for u8 {
 impl Foo for String {
     fn method(&self) -> String { format!("string: {}", *self) }
 }
-
+impl Foo for &String {
+    fn method(&self) -> String { format!("string: {}", *self) }
+}
 // IMPLEMENT below with generics and parameters
-fn static_dispatch(x) {
-    todo!()
+fn static_dispatch<T: std::fmt::Display>(x: T) {
+    println!("{}",x);
 }
 
 // Implement below with trait objects and parameters
-fn dynamic_dispatch(x) {
-    todo!()
+fn dynamic_dispatch<T: Foo>(x: T) {
+    println!("Hello World!");
 }
 
 // Exercise 5 
@@ -90,7 +103,7 @@ fn draw_with_box(x: Box<dyn Draw>) {
     x.draw();
 }
 
-fn draw_with_ref(x: __) {
+fn draw_with_ref(x: &u8) {
     x.draw();
 }
 
@@ -106,11 +119,28 @@ trait Container {
     fn is_empty(&self) -> bool;
 }
 
-struct Stack {
-    items: Vec<u8>,
+struct Stack<T> {
+    items: Vec<T>,
 }
 
-//TODO implement Container for Stack
+impl<T> Container for Stack<T>{
+    type Item = T;
+
+    fn insert(&mut self, item: Self::Item) {
+        self.items.push(item)
+    }
+
+    fn remove(&mut self) -> Option<Self::Item> {
+        self.items.pop()
+        
+
+        
+    }
+
+    fn is_empty(&self) -> bool {
+        self.items.len() == 0
+    }
+}
 
 
 
@@ -161,7 +191,8 @@ mod tests {
         let y = 8u8;
     
         // Draw x.
-        draw_with_box(__);
+        
+        draw_with_box(Box::new(x));
     
         // Draw y.
         draw_with_ref(&y);
