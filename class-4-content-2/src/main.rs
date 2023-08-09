@@ -226,7 +226,7 @@ trait IteratorVec {
     fn next(&mut self) -> Option<Self::Item>;
 }
 
-impl IteratorVec for Vec<u32> {
+impl IteratorVec for Vec<u32> { // tạo trait cho kiểu dữ liệu Vec<u32>
     type Item = u32;
 
     fn next(&mut self) -> Option<u32> {
@@ -243,6 +243,7 @@ trait Contains {
     fn contains(&self, _: &Self::A, _: &Self::B) -> bool; // Explicitly requires `A` and `B`.
     fn first(&self) -> i32; // Doesn't explicitly require `A` or `B`.
     fn last(&self) -> i32; // Doesn't explicitly require `A` or `B`.
+    
 }
 
 impl Contains for Container {
