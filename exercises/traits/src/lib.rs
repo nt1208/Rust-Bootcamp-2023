@@ -70,13 +70,13 @@ impl Foo for &String {
     fn method(&self) -> String { format!("string: {}", *self) }
 }
 // IMPLEMENT below with generics and parameters
-fn static_dispatch<T: std::fmt::Display>(x: T) {
-    println!("{}",x);
+fn static_dispatch(x: impl Foo) {
+    x.method();
 }
 
 // Implement below with trait objects and parameters
-fn dynamic_dispatch<T: Foo>(x: T) {
-    println!("Hello World!");
+fn dynamic_dispatch(x:&dyn Foo) {
+    x.method();
 }
 
 // Exercise 5 
