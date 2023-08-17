@@ -1,0 +1,8 @@
+Khi sử dụng dấu chấm hỏi (?) sau một biểu thức giá trị trả về (thường là một kết quả của một phương thức), nó cho phép xử lý lỗi một cách thuận tiện. Nếu giá trị trả về là Ok, dấu chấm hỏi sẽ tiếp tục thực hiện các câu lệnh tiếp theo. Tuy nhiên, nếu giá trị trả về là Err, dấu chấm hỏi sẽ ngừng thực hiện các câu lệnh tiếp theo và truyền lỗi đến phần gọi hàm cha hoặc xử lý lỗi theo cách khác.
+
+Ví dụ: 
+ let res2 = divide(10, 0)?; 
+    println!("Quotient: {:?}", res2);
+    println!("abc");
+    Ok(())
+
